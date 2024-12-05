@@ -18,7 +18,6 @@ namespace Server
 
         static void Main(string[] args)
         {
-            Users.Add(new User("kolovratik", "abra-kadabra", @"C:\ForPR4"));
             Console.Write("Введите IP адрес сервера: ");
             string sIpAddress = Console.ReadLine();
             Console.Write("Введите порт: ");
