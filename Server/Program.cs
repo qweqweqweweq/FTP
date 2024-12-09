@@ -4,6 +4,7 @@ using Server.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -29,6 +30,12 @@ namespace Server
                 StartServer();
             }
             Console.Read();
+        }
+
+        public static bool AuthUser(string login, string password, out User authUser)
+        {
+            authUser = Users.FirstOrDefault(x => x.login == login && x.password == password);
+            return authUser != null;
         }
 
         public static bool AuthorizationUser(string login, string password)
