@@ -53,14 +53,12 @@ namespace Server
                 string[] dirs = Directory.GetDirectories(src);
                 foreach (string dir in dirs)
                 {
-                    string NameDirectory = dir.Replace(src, "");
-                    FoldersFiles.Add(NameDirectory + "/");
+                    FoldersFiles.Add(dir + "\\");
                 }
                 string[] files = Directory.GetFiles(src);
                 foreach (string file in files)
                 {
-                    string NameFile = file.Replace(src, "");
-                    FoldersFiles.Add(NameFile);
+                    FoldersFiles.Add(file);
                 }
             }
             return FoldersFiles;
