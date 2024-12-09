@@ -1,4 +1,5 @@
 ﻿using Common;
+using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using Server.Models;
 using System;
@@ -146,7 +147,7 @@ namespace Server
                                 viewModelMessage = new ViewModelMessage("file", JsonConvert.SerializeObject(byteFile));
                                 string login = Users[viewModelSend.Id - 1].login;
                                 string password = Users[viewModelSend.Id - 1].password;
-                                var IdUser = Users.Find(x => x.login == login && x.password == password).id;
+                                var IdUser = Users.Find(x => x.login == login && x.password == password).Id;
                                 LogCommands(IdUser, "get");
                             }
                             else
@@ -191,7 +192,19 @@ namespace Server
 
         private static void LogCommands(int IdUser, string Command)
         {
-
+            string connection = "server=localhost;port=3303;database=FTP;uid=root;";
+            using (MySqlConnection connect = new MySqlConnection(connection))
+            {
+                connect.Open();
+                string query = "INSER INTO Commands (IdUser, Command, Date) VALUES (@IdUser, @Command, @Date)";
+                using (MySqlCommand mySqlCommand = new MySqlCommand(query, connect))
+                {
+                    mySqlCommand.Parameters.AddWithValue("IdUser", IdUser);
+                    mySqlCommand.Parameters.AddWithValue("@Command", Command);
+                    mySqlCommand.Parameters.AddWithValue("@Date", DateTime.Now);
+                    mySqlCommand.ExecuteNonQuery();
+                }
+            }
         }
 
         public static void StartServer()
