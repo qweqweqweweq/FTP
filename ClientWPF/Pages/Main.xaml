@@ -66,8 +66,8 @@
     </Page.Resources>
 
     <Grid Background="#FF516A80">
-        <Button x:Name="Back" Content="Back" Foreground="#FF29465F" Height="30" FontSize="15" Width="100" Background="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20" Style="{DynamicResource ButtonStyle1}"/>
-        <ListBox x:Name="list" Margin="20,60,20,60" Background="White"/>
-        <Button x:Name="Load" Content="Load file" Height="30" FontSize="15" Width="150" Foreground="#FF29465F" Background="White" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="20" Style="{DynamicResource ButtonStyle1}"/>
+        <Button Click="Back" Content="Back" Foreground="#FF29465F" Height="30" FontSize="15" Width="100" Background="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20" Style="{DynamicResource ButtonStyle1}"/>
+        <ListBox x:Name="list" Margin="20,60,20,60" Background="White" MouseDoubleClick="ListOpenFold"/>
+        <Button Click="Load" Content="Load file" Height="30" FontSize="15" Width="150" Foreground="#FF29465F" Background="White" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="20" Style="{DynamicResource ButtonStyle1}"/>
     </Grid>
 </Page>

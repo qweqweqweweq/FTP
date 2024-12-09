@@ -20,9 +20,11 @@ namespace ClientWPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        MainWindow mw;
         public MainWindow()
         {
             InitializeComponent();
+            frame.Navigate(new Pages.Connect(this));
         }
     }
 }
