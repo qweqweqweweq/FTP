@@ -51,12 +51,11 @@ namespace ClientWPF.Pages
 
                 try
                 {
-                    // Отправляем команду авторизации
                     var response = SendCommand($"connect {Login} {Password}");
 
                     if (response?.Command == "authorization")
                     {
-                        IdUser = int.Parse(response.Data); // Присваиваем ID пользователя
+                        IdUser = int.Parse(response.Data);
 
                         if (IdUser == -1)
                         {
@@ -64,8 +63,8 @@ namespace ClientWPF.Pages
                             return;
                         }
 
-                        MessageBox.Show("Подключение успешно!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
-                        mw.frame.Navigate(new Pages.Main(mw, ipAddress, Port, IdUser)); // Переходим в главное окно с IdUser
+                        MessageBox.Show("Подключение успешно", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
+                        mw.frame.Navigate(new Pages.Main(mw, ipAddress, Port, IdUser));
                     }
                     else
                     {
@@ -74,7 +73,6 @@ namespace ClientWPF.Pages
                 }
                 catch (Exception ex)
                 {
-                    // Логируем детальную информацию об ошибке
                     MessageBox.Show($"Ошибка подключения: {ex.Message}\n{ex.StackTrace}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }

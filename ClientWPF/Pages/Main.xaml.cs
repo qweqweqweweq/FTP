@@ -60,7 +60,6 @@ namespace ClientWPF.Pages
                     List<string> directories;
                     try
                     {
-                        // Пробуем десериализовать список директорий
                         directories = JsonConvert.DeserializeObject<List<string>>(response.Data);
                     }
                     catch (JsonException)
@@ -221,14 +220,28 @@ namespace ClientWPF.Pages
             {
                 if (directoryStack.Count > 0)
                 {
-                    directoryStack.Pop();
-                    LoadDirectories();
+                    string previousDirectory = directoryStack.Pop();
+
+                    var response = SendCommand($"cd {previousDirectory}");
+
+                    if (response?.Command == "cd")
+                    {
+                        LoadDirectories();
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Ошибка открытия директории: {response?.Data}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Вы находитесь в корневой директории. Невозможно перейти назад.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
-            if (selectedItem.EndsWith("\\"))
+            else if (selectedItem.EndsWith("\\"))
             {
                 directoryStack.Push(selectedItem);
-                var response = SendCommand($"cd {selectedItem.TrimEnd('/')}");
+                var response = SendCommand($"cd {selectedItem.TrimEnd('\\')}");
 
                 if (response?.Command == "cd")
                 {
@@ -283,6 +296,35 @@ namespace ClientWPF.Pages
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void Find(object sender, RoutedEventArgs e)
+        {
+            string folderPath = search.Text;
+
+
+            if (string.IsNullOrWhiteSpace(folderPath))
+            {
+                LoadDirectories();
+            }
+
+            var response = SendCommand($"cd {folderPath}");
+
+            if (response?.Command == "cd")
+            {
+                var directories = JsonConvert.DeserializeObject<List<string>>(response.Data);
+
+                list.Items.Clear();
+                list.Items.Add("Назад");
+                foreach (var directory in directories)
+                {
+                    list.Items.Add(directory);
+                }
+            }
+            else
+            {
+                MessageBox.Show($"Не удалось перейти в указанную директорию: {response?.Data}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }
