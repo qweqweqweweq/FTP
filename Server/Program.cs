@@ -54,7 +54,7 @@ namespace Server
             }
         }
 
-        public static bool AutorizationUser(string login, string password, out int userId)
+        public static bool AuthorizationUser(string login, string password, out int userId)
         {
             userId = -1;
             User user = Users.Find(x => x.login == login && x.password == password);
@@ -125,10 +125,10 @@ namespace Server
                     if (DataCommand[0] == "connect")
                     {
                         string[] DataMessage = ViewModelSend.Message.Split(new string[1] { " " }, StringSplitOptions.None);
-                        if (AutorizationUser(DataMessage[1], DataMessage[2], out int userId))
+                        if (AuthorizationUser(DataMessage[1], DataMessage[2], out int userId))
                         {
                             userId = Users.Find(x => x.login == DataMessage[1] && x.password == DataMessage[2]).Id;
-                            viewModelMessage = new ViewModelMessage("autorization", userId.ToString());
+                            viewModelMessage = new ViewModelMessage("authorization", userId.ToString());
                             string username = Users.Find(x => x.login == DataMessage[1] && x.password == DataMessage[2]).login;
                             string password = Users.Find(x => x.login == DataMessage[1] && x.password == DataMessage[2]).password;
                             LogCommandToDatabase(userId, ViewModelSend.Message.Split(' ')[0]);

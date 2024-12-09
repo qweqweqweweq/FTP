@@ -33,10 +33,13 @@ namespace ClientWPF.Pages
         private int port;
         private int userId = -1;
         private Stack<string> directoryStack = new Stack<string>();
-        public Main(MainWindow _mw)
+        public Main(MainWindow _mw, IPAddress ip, int _port, int _idUser)
         {
             InitializeComponent();
             this.mw = _mw;
+            this.ipAddress = ip;
+            this.port = _port;
+            this.userId = _idUser;
 
             LoadDirectories();
         }
@@ -48,7 +51,24 @@ namespace ClientWPF.Pages
                 var response = SendCommand("cd");
                 if (response?.Command == "cd")
                 {
-                    var directories = JsonConvert.DeserializeObject<string[]>(response.Data);
+                    if (string.IsNullOrEmpty(response.Data))
+                    {
+                        MessageBox.Show("Список директорий пуст.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+
+                    List<string> directories;
+                    try
+                    {
+                        // Пробуем десериализовать список директорий
+                        directories = JsonConvert.DeserializeObject<List<string>>(response.Data);
+                    }
+                    catch (JsonException)
+                    {
+                        MessageBox.Show("Ошибка при получении списка директорий: Неверный формат данных", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
                     list.Items.Clear();
 
                     if (directoryStack.Count > 0)
@@ -63,7 +83,7 @@ namespace ClientWPF.Pages
                 }
                 else
                 {
-                    MessageBox.Show("Не удалось загрузить список директорий.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show($"Не удалось загрузить список директорий: {response?.Data ?? "Неизвестная ошибка"}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             catch (Exception ex)
