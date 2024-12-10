@@ -1,5 +1,5 @@
 ﻿using Common;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 using Newtonsoft.Json;
 using Server.Models;
 using System;
@@ -8,8 +8,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Runtime.InteropServices;
-using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,7 +18,7 @@ namespace Server
         public static List<User> Users = new List<User>();
         public static IPAddress IpAddress;
         public static int Port;
-        private static string connectionString = "server=localhost;port=3303;Database=FTP;uid=root;";
+        private static string connectionString = "server=127.0.0.1;port=3306;Database=FTP;uid=root;";
 
         static void Main(string[] args)
         {
@@ -155,7 +153,8 @@ namespace Server
                             else
                             {
                                 string cdFolder = string.Join(" ", DataMessage.Skip(1));
-                                Users[ViewModelSend.Id - 1].temp_src = Path.Combine(Users[ViewModelSend.Id - 1].temp_src, cdFolder);
+                                Console.WriteLine(Users[ViewModelSend.Id - 1].src + cdFolder);
+                                Users[ViewModelSend.Id - 1].temp_src = Users[ViewModelSend.Id - 1].src + cdFolder;
                                 FoldersFiles = GetDirectory(Users[ViewModelSend.Id - 1].temp_src);
                             }
                             if (FoldersFiles.Count == 0)
@@ -238,7 +237,7 @@ namespace Server
 
         private static void LogCommandToDatabase(int userId, string command)
         {
-            string connectionString = "server=localhost;port=3303;database=FTP;uid=root;";
+            string connectionString = "server=127.0.0.1;port=3306;database=FTP;uid=root;";
 
             using (MySqlConnection conn = new MySqlConnection(connectionString))
             {
