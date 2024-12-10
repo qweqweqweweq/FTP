@@ -1,5 +1,5 @@
 ﻿using Common;
-using MySqlConnector;
+using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using Server.Models;
 using System;
@@ -18,7 +18,7 @@ namespace Server
         public static List<User> Users = new List<User>();
         public static IPAddress IpAddress;
         public static int Port;
-        private static string connectionString = "server=127.0.0.1;port=3306;Database=FTP;uid=root;";
+        private static string connectionString = "server=127.0.0.1;port=3303;Database=FTP;uid=root;";
 
         static void Main(string[] args)
         {
@@ -245,7 +245,7 @@ namespace Server
 
         private static void LogCommandToDatabase(int userId, string command)
         {
-            string connectionString = "server=127.0.0.1;port=3306;database=FTP;uid=root;";
+            string connectionString = "server=127.0.0.1;port=3303;database=FTP;uid=root;";
 
             using (MySqlConnection conn = new MySqlConnection(connectionString))
             {

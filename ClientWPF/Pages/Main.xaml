@@ -114,10 +114,6 @@
             <ImageBrush ImageSource="/Images/background.jpg"/>
         </Grid.Background>
         <Button Click="Back" Content="Back" Foreground="#FF235428" Height="30" FontSize="15" Width="100" Background="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20" Style="{DynamicResource ButtonStyle1}"/>
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,80,0">
-            <TextBox Style="{DynamicResource TextBoxStyle1}" VerticalContentAlignment="Center" x:Name="search" FontSize="15" Height="30" Padding="5,0,5,0" Width="450" Background="White"/>
-            <Button Click="Find" Height="30" FontSize="15" Content="Find" Width="70" Background="White" Foreground="#FF235428" Margin="10,0,0,0" Style="{DynamicResource ButtonStyle1}"/>
-        </StackPanel>
         <ListBox x:Name="list" Margin="20,60,20,60" Background="#CCFFFFFF" MouseDoubleClick="ListOpenFold"/>
         <Button Click="Load" Content="Load file" Height="30" FontSize="15" Width="150" Foreground="#FF235428" Background="White" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="20" Style="{DynamicResource ButtonStyle1}"/>
     </Grid>

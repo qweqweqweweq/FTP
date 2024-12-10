@@ -289,33 +289,6 @@ namespace ClientWPF.Pages
             }
         }
 
-        private void Find(object sender, RoutedEventArgs e)
-        {
-            string folderPath = search.Text;
-
-
-            if (string.IsNullOrWhiteSpace(folderPath))
-            {
-                LoadDirectories();
-            }
-
-            var response = SendCommand($"cd {folderPath}");
-
-            if (response?.Command == "cd")
-            {
-                var directories = JsonConvert.DeserializeObject<List<string>>(response.Data);
-
-                list.Items.Clear();
-                list.Items.Add("Назад");
-                foreach (var directory in directories)
-                {
-                    list.Items.Add(directory);
-                }
-            }
-            else
-            {
-                MessageBox.Show($"Не удалось перейти в указанную директорию: {response?.Data}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
+        
     }
 }
