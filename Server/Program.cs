@@ -153,19 +153,17 @@ namespace Server
                             else
                             {
                                 string cdFolder = string.Join(" ", DataMessage.Skip(1));
-                                if (cdFolder == Users[ViewModelSend.Id - 1].src)
+                                Console.WriteLine(cdFolder);
+                                if (cdFolder.Equals(Users[ViewModelSend.Id - 1].src))
                                 {
                                     Users[ViewModelSend.Id - 1].temp_src = Users[ViewModelSend.Id - 1].src;
+                                    FoldersFiles = GetDirectory(Users[ViewModelSend.Id - 1].temp_src);
                                 }
                                 else if (cdFolder.Contains(Users[ViewModelSend.Id - 1].temp_src))
                                 {
                                     Users[ViewModelSend.Id - 1].temp_src = Path.Combine(Users[ViewModelSend.Id - 1].temp_src, cdFolder);
+                                    FoldersFiles = GetDirectory(Users[ViewModelSend.Id - 1].temp_src);
                                 }
-                                else
-                                {
-                                    viewModelMessage = new ViewModelMessage("message", "Директория пуста или не существует.");
-                                }
-                                FoldersFiles = GetDirectory(Users[ViewModelSend.Id - 1].temp_src);
                             }
                             if (FoldersFiles.Count == 0)
                             {
